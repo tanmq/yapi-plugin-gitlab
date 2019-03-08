@@ -381,6 +381,9 @@ class gitlabController extends baseController{
         let owners = [];
         for (let i = 0; i < members.length; i++) {
             let gitlabUser = await this.searchGitLabUserById(ops, members[i].id);
+            if (!gitlabUser[ops.emailKey]) {
+                gitlabUser[ops.emailKey] = gitlabUser[ops.userKey] + ops.emailPostfix
+            }
             let user = await this.handleThirdLogin(gitlabUser[ops.emailKey], gitlabUser[ops.userKey])
             owners.push({
                 _role: user.role,
